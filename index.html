@@ -230,6 +230,415 @@ input[type=file]{display:none;}
 #sync-dot.error{background:var(--danger);}
 #app.visible ~ #sync-dot,#app.visible #sync-dot{display:block;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3;}}
+
+/* ══════════════════════════════════════
+   DESKTOP LAYOUT (>= 769px)
+══════════════════════════════════════ */
+@media (min-width: 769px) {
+  body { max-width: 100%; overflow-x: hidden; }
+
+  /* Hide mobile app shell */
+  #app { display: none !important; }
+  #app.visible { display: none !important; }
+
+  /* Show desktop shell */
+  #desktop-app { display: flex !important; }
+
+  /* Splash centered on desktop */
+  #splash { max-width: 480px; margin: 0 auto; }
+  #pin-screen, #setup-screen { max-width: 480px; margin: 0 auto; }
+}
+
+/* Hide desktop on mobile */
+@media (max-width: 768px) {
+  #desktop-app { display: none !important; }
+}
+
+/* ── DESKTOP SHELL ── */
+#desktop-app {
+  display: none;
+  height: 100vh;
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* SIDEBAR */
+#d-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+#d-logo-area {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+#d-logo-area img { width: 140px; height: auto; }
+#d-user-info {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#d-user-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 13px;
+  flex-shrink: 0;
+}
+#d-user-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; }
+#d-logout {
+  margin-left: auto;
+  background: none; border: none;
+  color: var(--muted); font-size: 13px;
+  cursor: pointer; padding: 4px 8px;
+  border-radius: 6px;
+  transition: .15s;
+}
+#d-logout:hover { background: var(--surface2); color: var(--text); }
+
+#d-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
+.d-nav-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 11px 20px;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  transition: .15s;
+  border-left: 3px solid transparent;
+}
+.d-nav-item:hover { background: var(--surface2); color: var(--text); }
+.d-nav-item.active {
+  color: var(--accent);
+  background: #2563eb11;
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+.d-nav-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+.d-nav-badge {
+  margin-left: auto;
+  background: var(--danger);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 20px;
+  display: none;
+}
+.d-nav-badge.show { display: block; }
+
+#d-sync {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted);
+  display: flex; align-items: center; gap: 6px;
+}
+#d-sync-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+  flex-shrink: 0;
+  transition: background .3s;
+}
+#d-sync-dot.saving { background: var(--low); animation: blink .7s infinite; }
+#d-sync-dot.error { background: var(--danger); }
+
+/* MAIN CONTENT */
+#d-main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+#d-topbar {
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+#d-page-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--text);
+}
+.d-topbar-actions { display: flex; gap: 10px; align-items: center; }
+.d-btn {
+  background: var(--accent);
+  color: white; border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .15s;
+}
+.d-btn:hover { opacity: .9; }
+.d-btn.secondary {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+#d-content { padding: 24px 28px; flex: 1; }
+
+/* STATS ROW */
+.d-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.d-stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.d-stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.d-stat-value {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  color: var(--text);
+}
+.d-stat-value.danger { color: var(--danger); }
+.d-stat-value.low { color: var(--low); }
+.d-stat-value.success { color: var(--success); }
+.d-stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* TWO COLUMN LAYOUT */
+.d-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.d-three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* PANEL */
+.d-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.d-panel-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.d-panel-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text);
+}
+.d-panel-body { padding: 16px 18px; }
+.d-panel-body.no-pad { padding: 0; }
+
+/* TABLE */
+.d-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.d-table th {
+  background: var(--surface2);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+.d-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+.d-table tr:last-child td { border-bottom: none; }
+.d-table tr:hover td { background: var(--surface2); }
+.d-table .qty-input {
+  width: 70px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: var(--text);
+  font-size: 13px;
+  text-align: center;
+}
+.d-table .qty-input:focus { border-color: var(--accent); outline: none; }
+.d-badge-danger { background: #ef444422; color: var(--danger); border: 1px solid #ef444433; border-radius: 5px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+.d-badge-low { background: #f59e0b22; color: var(--low); border: 1px solid #f59e0b33; border-radius: 5px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+.d-badge-ok { background: #22c55e22; color: var(--success); border: 1px solid #22c55e33; border-radius: 5px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+.d-badge-carga { background: #22c55e18; color: var(--success); border: 1px solid #22c55e44; border-radius: 5px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+
+/* SEARCH */
+.d-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.d-search input {
+  background: none; border: none; outline: none;
+  color: var(--text); font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  flex: 1;
+}
+.d-search input::placeholder { color: var(--muted); }
+
+/* ACTIVITY FEED */
+.d-act-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.d-act-item:last-child { border-bottom: none; }
+.d-act-av {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 12px;
+  flex-shrink: 0;
+}
+.d-act-info { flex: 1; min-width: 0; }
+.d-act-name { font-weight: 600; font-size: 13px; }
+.d-act-rec { font-size: 12px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.d-act-loc { font-size: 11px; color: var(--accent); margin-top: 2px; }
+.d-act-note { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 2px; }
+.d-act-qty { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; flex-shrink: 0; }
+.d-act-date { font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+/* TECH GRID */
+.d-tech-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.d-tech-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.d-tech-av {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 11px;
+}
+.d-tech-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; }
+.d-tech-status { margin-left: auto; font-size: 11px; }
+.d-tech-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.d-tech-item:last-child { border-bottom: none; }
+.d-tech-item-name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.d-tech-item-qty { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+
+/* ALERT BANNER */
+.d-alert {
+  background: #ef444411;
+  border: 1px solid #ef444433;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+/* TALLER CONTROLS */
+.d-qty-ctrl {
+  display: flex; align-items: center; gap: 6px;
+}
+.d-qty-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 5px;
+  width: 24px; height: 24px;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  transition: .12s;
+}
+.d-qty-btn:hover { background: var(--border); }
+.d-qty-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 15px;
+  min-width: 30px; text-align: center;
+}
+.d-qty-num.empty { color: var(--danger); }
+.d-qty-num.low { color: var(--low); }
+
+/* MODAL DESKTOP */
+.d-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+}
+.d-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  width: 480px;
+  max-width: 90vw;
+  animation: fadeIn .2s ease;
+}
+@keyframes fadeIn { from{opacity:0;transform:scale(.97)} to{opacity:1;transform:scale(1)} }
+.d-modal-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; margin-bottom: 20px; }
+.d-form-field { margin-bottom: 14px; }
+.d-form-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; font-weight: 600; }
+.d-form-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; transition: border-color .15s; }
+.d-form-input:focus { border-color: var(--accent); }
+.d-modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.d-modal-confirm { flex: 1; background: var(--accent); color: white; border: none; border-radius: 10px; padding: 12px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; }
+.d-modal-cancel { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); border-radius: 10px; padding: 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; }
+
+/* CODE BADGE desktop */
+.d-code { display: inline-block; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-size: 10px; color: var(--muted); margin-right: 6px; }
+
+/* Scrollbar */
+#d-main::-webkit-scrollbar { width: 6px; }
+#d-main::-webkit-scrollbar-track { background: transparent; }
+#d-main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Responsive tweaks for mid-size screens */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .d-stats-row { grid-template-columns: repeat(2, 1fr); }
+  .d-three-col { grid-template-columns: 1fr 1fr; }
+}
+
 </style>
 </head>
 <body>
@@ -1444,6 +1853,459 @@ function toast(msg) {
 
 // ── START ──
 init();
+
+
+// ══════════════════════════════════════
+//   DESKTOP APP LOGIC
+// ══════════════════════════════════════
+
+const IS_DESKTOP = () => window.innerWidth >= 769;
+let dPage = 'dashboard';
+let dTalmEditId = null;
+let dSearchTaller = '';
+let dSearchActividad = '';
+let dSearchClientes = '';
+let dClienteFilter = '';
+
+function dSyncDot(s) {
+  const dot = document.getElementById('d-sync-dot');
+  const txt = document.getElementById('d-sync-text');
+  if(!dot) return;
+  dot.className = s;
+  txt.textContent = s === 'saving' ? 'Guardando...' : s === 'error' ? 'Error' : 'Sincronizado';
+}
+
+// Override syncDot to also update desktop
+const origSyncDot = syncDot;
+window.syncDot = function(s) {
+  origSyncDot(s);
+  dSyncDot(s);
+}
+
+function dLoginUser() {
+  // Called after loginUser() — set up desktop UI
+  if (!IS_DESKTOP()) return;
+  const u = CU;
+  document.getElementById('d-user-avatar').textContent = u.name[0];
+  document.getElementById('d-user-avatar').style.cssText =
+    `background:${u.color}22;color:${u.color};width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;flex-shrink:0;`;
+  document.getElementById('d-user-name').textContent = u.name;
+  document.getElementById('desktop-app').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  dShowPage('dashboard');
+}
+
+function dLogout() {
+  document.getElementById('desktop-app').style.display = 'none';
+  logout();
+}
+
+// Override loginUser to also init desktop
+const origLoginUser = loginUser;
+window.loginUser = function() {
+  origLoginUser();
+  if (IS_DESKTOP()) {
+    setTimeout(dLoginUser, 50);
+  }
+}
+
+// Override logout
+const origLogout = logout;
+window.logout = function() {
+  document.getElementById('desktop-app').style.display = 'none';
+  origLogout();
+}
+
+function dShowPage(page) {
+  dPage = page;
+  document.querySelectorAll('.d-nav-item').forEach(el => el.classList.remove('active'));
+  const nav = document.getElementById('dnav-' + page);
+  if(nav) nav.classList.add('active');
+  document.getElementById('d-page-title').textContent = {
+    dashboard: 'Dashboard',
+    taller: 'Stock Taller',
+    furgonetas: 'Furgonetas del Equipo',
+    actividad: 'Actividad del Equipo',
+    clientes: 'Historial por Cliente'
+  }[page] || page;
+  dRenderPage();
+}
+
+function dRenderPage() {
+  if(!IS_DESKTOP()) return;
+  const actions = document.getElementById('d-topbar-actions');
+  actions.innerHTML = '';
+  if(dPage === 'dashboard')   { dRenderDashboard(); }
+  if(dPage === 'taller')      { dRenderTaller(); }
+  if(dPage === 'furgonetas')  { dRenderFurgonetas(); }
+  if(dPage === 'actividad')   { dRenderActividad(); }
+  if(dPage === 'clientes')    { dRenderClientes(); }
+}
+
+// Auto-refresh desktop when Firebase data changes
+function dAutoRefresh() {
+  if(IS_DESKTOP() && CU) dRenderPage();
+}
+
+// ── DASHBOARD ──
+function dRenderDashboard() {
+  const allItems = Object.values(S.stocks).flat().filter(Boolean);
+  const lowFurgo = allItems.filter(i => i.qty <= i.alert);
+  const lowTaller = S.taller.filter(i => i.qty <= i.alert);
+  const totalUsos = S.history.filter(x => x.type === 'uso').length;
+  const totalCargas = S.history.filter(x => x.type === 'carga').length;
+  const recentAct = [...S.history].filter(x=>x.type==='uso'||x.type==='carga').reverse().slice(0,8);
+  const usuarios = USERS.filter(u => S.stocks[u.id] && S.stocks[u.id].length > 0);
+
+  // Update badges
+  const badgeFurgo = document.getElementById('d-badge-furgo');
+  const badgeTaller = document.getElementById('d-badge-taller');
+  if(badgeFurgo) { badgeFurgo.textContent = lowFurgo.length; badgeFurgo.classList.toggle('show', lowFurgo.length > 0); }
+  if(badgeTaller) { badgeTaller.textContent = lowTaller.length; badgeTaller.classList.toggle('show', lowTaller.length > 0); }
+
+  const alertHtml = (lowFurgo.length || lowTaller.length) ? `
+    <div class="d-alert">
+      <strong>Alertas de stock:</strong>
+      ${lowTaller.length ? `${lowTaller.length} recambio${lowTaller.length>1?'s':''} bajo en <strong>taller</strong>` : ''}
+      ${lowTaller.length && lowFurgo.length ? ' · ' : ''}
+      ${lowFurgo.length ? `${lowFurgo.length} recambio${lowFurgo.length>1?'s':''} bajo en <strong>furgonetas</strong>` : ''}
+      &nbsp;
+      <a href="#" onclick="dShowPage('taller')" style="color:var(--accent);">Ver taller</a>
+      &nbsp;·&nbsp;
+      <a href="#" onclick="dShowPage('furgonetas')" style="color:var(--accent);">Ver furgonetas</a>
+    </div>` : '';
+
+  const recentHtml = recentAct.map(h => {
+    const u = USERS.find(x=>x.id===h.userId)||{};
+    const d = new Date(h.date);
+    const ds = d.toLocaleDateString('es-ES',{day:'2-digit',month:'short'})+' '+d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+    const isLoad = h.type === 'carga';
+    return `<div class="d-act-item">
+      <div class="d-act-av" style="background:${u.color||'#444'}22;color:${u.color||'#aaa'};">${(u.name||'?')[0]}</div>
+      <div class="d-act-info">
+        <div class="d-act-name">${u.name||'?'} <span style="color:var(--muted);font-weight:400;font-size:12px;">${isLoad?'cargo del taller':'uso en reparacion'}</span></div>
+        <div class="d-act-rec">${h.code?`<span class="d-code">${h.code}</span>`:''}${h.recName}</div>
+        ${h.loc?`<div class="d-act-loc">📍 ${h.loc}</div>`:''}
+        ${h.note?`<div class="d-act-note">📝 ${h.note}</div>`:''}
+      </div>
+      <div>
+        <div class="d-act-qty" style="color:${isLoad?'var(--success)':'var(--danger)'};">${isLoad?'+':'−'}${h.qty}</div>
+        <div class="d-act-date">${ds}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Tech mini cards
+  const techHtml = USERS.map(u => {
+    const it = S.stocks[u.id]||[];
+    const low = it.filter(i=>i.qty<=i.alert);
+    return `<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:${u.color}22;color:${u.color};display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;flex-shrink:0;">${u.name[0]}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;">${u.name}</div>
+        <div style="font-size:11px;color:${low.length?'var(--danger)':'var(--success)'};">${low.length?`${low.length} stock bajo`:'Stock OK'}</div>
+      </div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--muted);">${it.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('d-content').innerHTML = `
+    ${alertHtml}
+    <div class="d-stats-row">
+      <div class="d-stat-card">
+        <div class="d-stat-label">Recambios en taller</div>
+        <div class="d-stat-value">${S.taller.length}</div>
+        <div class="d-stat-sub">${lowTaller.length} con stock bajo</div>
+      </div>
+      <div class="d-stat-card">
+        <div class="d-stat-label">Alertas furgonetas</div>
+        <div class="d-stat-value ${lowFurgo.length>0?'danger':''}">${lowFurgo.length}</div>
+        <div class="d-stat-sub">recambios bajo minimos</div>
+      </div>
+      <div class="d-stat-card">
+        <div class="d-stat-label">Usos registrados</div>
+        <div class="d-stat-value success">${totalUsos}</div>
+        <div class="d-stat-sub">en total</div>
+      </div>
+      <div class="d-stat-card">
+        <div class="d-stat-label">Cargas del taller</div>
+        <div class="d-stat-value">${totalCargas}</div>
+        <div class="d-stat-sub">reposiciones</div>
+      </div>
+    </div>
+    <div class="d-two-col">
+      <div class="d-panel">
+        <div class="d-panel-header">
+          <div class="d-panel-title">Actividad reciente</div>
+          <button class="d-btn secondary" style="padding:5px 12px;font-size:12px;" onclick="dShowPage('actividad')">Ver todo</button>
+        </div>
+        <div class="d-panel-body">${recentHtml || '<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0;">Sin actividad aun</div>'}</div>
+      </div>
+      <div>
+        <div class="d-panel" style="margin-bottom:0;">
+          <div class="d-panel-header"><div class="d-panel-title">Estado del equipo</div></div>
+          <div class="d-panel-body" style="display:flex;flex-direction:column;gap:8px;">${techHtml}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ── TALLER ──
+function dRenderTaller() {
+  const actions = document.getElementById('d-topbar-actions');
+  actions.innerHTML = `
+    <div class="d-search"><input type="text" placeholder="Buscar por nombre o codigo..." value="${dSearchTaller}" oninput="dSearchTaller=this.value;dRenderTaller()"></div>
+    <button class="d-btn" onclick="dShowTallerModal()">+ Nuevo recambio</button>
+    <button class="d-btn secondary" onclick="exportCSV()">Exportar CSV</button>`;
+
+  const items = S.taller.filter(i =>
+    i.name.toLowerCase().includes(dSearchTaller.toLowerCase()) ||
+    (i.code||'').toLowerCase().includes(dSearchTaller.toLowerCase())
+  );
+  const alerts = S.taller.filter(i => i.qty <= i.alert);
+
+  const alertHtml = alerts.length ? `<div class="d-alert" style="margin-bottom:16px;">
+    <strong>Reponer en taller:</strong> ${alerts.map(a=>`${a.name} (quedan ${a.qty})`).join(' · ')}
+  </div>` : '';
+
+  const rows = items.map(i => {
+    const n = i.qty === 0, l = i.qty <= i.alert && i.qty > 0;
+    const badge = n ? '<span class="d-badge-danger">Sin stock</span>' : l ? '<span class="d-badge-low">Stock bajo</span>' : '<span class="d-badge-ok">OK</span>';
+    return `<tr>
+      <td><span class="d-code">${i.code||''}</span>${i.name}</td>
+      <td>
+        <div class="d-qty-ctrl">
+          <button class="d-qty-btn" onclick="dTallerAdj('${i.id}',-1)">-</button>
+          <span class="d-qty-num ${n?'empty':l?'low':''}">${i.qty}</span>
+          <button class="d-qty-btn" onclick="dTallerAdj('${i.id}',1)">+</button>
+        </div>
+      </td>
+      <td>${i.alert||1}</td>
+      <td>${badge}</td>
+      <td>
+        <button class="d-btn secondary" style="padding:4px 10px;font-size:12px;margin-right:4px;" onclick="dEditTaller('${i.id}')">Editar</button>
+        <button class="d-btn" style="padding:4px 10px;font-size:12px;background:var(--danger);" onclick="dDelTaller('${i.id}')">Eliminar</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('d-content').innerHTML = `${alertHtml}
+    <div class="d-panel">
+      <div class="d-panel-header">
+        <div class="d-panel-title">${S.taller.length} recambios en taller · ${items.length} mostrados</div>
+      </div>
+      <div class="d-panel-body no-pad">
+        <table class="d-table">
+          <thead><tr><th>Recambio</th><th>Stock</th><th>Alerta</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;">Sin resultados</td></tr>'}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function dTallerAdj(id, delta) {
+  tallerAdj(id, delta);
+}
+function dDelTaller(id) {
+  if(!confirm('¿Eliminar este recambio del taller?')) return;
+  fbSetTaller(S.taller.filter(i=>i.id!==id));
+  toast('Eliminado');
+}
+function dShowTallerModal() {
+  dTalmEditId = null;
+  document.getElementById('d-taller-modal-title').textContent = 'Nuevo Recambio Taller';
+  document.getElementById('d-talm-code').value = '';
+  document.getElementById('d-talm-name').value = '';
+  document.getElementById('d-talm-qty').value = '';
+  document.getElementById('d-talm-alert').value = '2';
+  document.getElementById('d-taller-modal').style.display = 'flex';
+}
+function dEditTaller(id) {
+  const i = S.taller.find(x=>x.id===id); if(!i) return;
+  dTalmEditId = id;
+  document.getElementById('d-taller-modal-title').textContent = 'Editar Recambio Taller';
+  document.getElementById('d-talm-code').value = i.code||'';
+  document.getElementById('d-talm-name').value = i.name;
+  document.getElementById('d-talm-qty').value = i.qty;
+  document.getElementById('d-talm-alert').value = i.alert||2;
+  document.getElementById('d-taller-modal').style.display = 'flex';
+}
+function dSaveTaller() {
+  const code = document.getElementById('d-talm-code').value.trim();
+  const name = document.getElementById('d-talm-name').value.trim();
+  const qty = parseInt(document.getElementById('d-talm-qty').value);
+  const alert = parseInt(document.getElementById('d-talm-alert').value)||2;
+  if(!name){ toast('Pon un nombre'); return; }
+  if(isNaN(qty)||qty<0){ toast('Cantidad no valida'); return; }
+  const items = [...S.taller];
+  if(dTalmEditId) {
+    const idx = items.findIndex(i=>i.id===dTalmEditId);
+    if(idx!==-1) items[idx] = {...items[idx], code, name, qty, alert};
+    toast('Actualizado');
+  } else {
+    items.push({id:'t'+Date.now(), code, name, qty, alert, img:null});
+    toast('Anadido');
+  }
+  fbSetTaller(items);
+  document.getElementById('d-taller-modal').style.display = 'none';
+}
+
+// ── FURGONETAS ──
+function dRenderFurgonetas() {
+  const cols = USERS.map(u => {
+    const it = S.stocks[u.id]||[];
+    const low = it.filter(i=>i.qty<=i.alert);
+    const items = it.map(i => {
+      const n=i.qty===0, l=i.qty<=i.alert&&i.qty>0;
+      return `<div class="d-tech-item">
+        <div class="d-tech-item-name">${i.code?`<span class="d-code">${i.code}</span>`:''}${i.name}</div>
+        <div class="d-tech-item-qty ${n?'empty':l?'low':''}" style="color:${n?'var(--danger)':l?'var(--low)':'var(--accent)'};">${i.qty}</div>
+      </div>`;
+    }).join('') || '<div style="padding:10px 14px;font-size:12px;color:var(--muted);">Sin recambios</div>';
+    return `<div class="d-tech-col">
+      <div class="d-tech-header">
+        <div class="d-tech-av" style="background:${u.color}22;color:${u.color};">${u.name[0]}</div>
+        <div class="d-tech-name">${u.name}</div>
+        <div class="d-tech-status" style="color:${low.length?'var(--danger)':'var(--success)'};">
+          ${low.length?`${low.length} bajo`:'OK'}
+        </div>
+      </div>
+      ${items}
+    </div>`;
+  }).join('');
+
+  document.getElementById('d-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+      ${cols}
+    </div>`;
+}
+
+// ── ACTIVIDAD ──
+function dRenderActividad() {
+  const actions = document.getElementById('d-topbar-actions');
+  actions.innerHTML = `
+    <div class="d-search"><input type="text" placeholder="Buscar tecnico, recambio, lugar..." value="${dSearchActividad}" oninput="dSearchActividad=this.value;dRenderActividad()"></div>
+    <button class="d-btn secondary" onclick="exportCSV()">Exportar CSV</button>`;
+
+  const labels = {uso:'Usado en reparacion',carga:'Cogido del taller',taller_add:'Anadido al taller',taller_remove:'Retirado del taller'};
+  const f = dSearchActividad.toLowerCase();
+  const all = [...S.history]
+    .filter(x=>['uso','carga','taller_add','taller_remove'].includes(x.type))
+    .reverse()
+    .filter(h => {
+      const u = USERS.find(x=>x.id===h.userId)||{};
+      return !f || h.recName.toLowerCase().includes(f) || (u.name||'').toLowerCase().includes(f) || (h.loc||'').toLowerCase().includes(f) || (h.code||'').toLowerCase().includes(f);
+    });
+
+  const rows = all.map(h => {
+    const u = USERS.find(x=>x.id===h.userId)||{};
+    const d = new Date(h.date);
+    const ds = d.toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+    const isLoad = h.type==='carga';
+    const isAdd = isLoad||h.type==='taller_add';
+    return `<tr>
+      <td>${ds}</td>
+      <td><span style="background:${u.color||'#444'}22;color:${u.color||'#aaa'};padding:2px 8px;border-radius:20px;font-size:12px;font-weight:600;">${u.name||'?'}</span></td>
+      <td>${h.code?`<span class="d-code">${h.code}</span>`:''}${h.recName}</td>
+      <td>${h.loc?`<span style="color:var(--accent);">📍 ${h.loc}</span>`:'-'}</td>
+      <td>${h.note?`<span style="color:var(--muted);font-style:italic;font-size:12px;">${h.note}</span>`:'-'}</td>
+      <td><span class="${isLoad?'d-badge-carga':''}${h.type==='uso'?'d-badge-danger':''}">${labels[h.type]||h.type}</span></td>
+      <td style="color:${isAdd?'var(--success)':'var(--danger)'};font-family:'Syne',sans-serif;font-weight:700;">${isAdd?'+':'−'}${h.qty}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('d-content').innerHTML = `
+    <div class="d-panel">
+      <div class="d-panel-header"><div class="d-panel-title">${all.length} registros</div></div>
+      <div class="d-panel-body no-pad">
+        <table class="d-table">
+          <thead><tr><th>Fecha</th><th>Tecnico</th><th>Recambio</th><th>Cliente</th><th>Nota</th><th>Tipo</th><th>Cant.</th></tr></thead>
+          <tbody>${rows||'<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px;">Sin resultados</td></tr>'}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+// ── CLIENTES ──
+function dRenderClientes() {
+  const actions = document.getElementById('d-topbar-actions');
+  actions.innerHTML = `
+    <div class="d-search"><input type="text" placeholder="Buscar cliente..." value="${dSearchClientes}" oninput="dSearchClientes=this.value;dRenderClientes()"></div>
+    <button class="d-btn secondary" onclick="exportCSV()">Exportar todo CSV</button>`;
+
+  const usos = S.history.filter(x=>x.type==='uso'&&x.loc);
+  const clientMap = {};
+  usos.forEach(h=>{
+    const key = h.loc.toLowerCase().trim();
+    if(!clientMap[key]) clientMap[key]={name:h.loc,visits:[],recambios:0};
+    clientMap[key].visits.push(h);
+    clientMap[key].recambios+=h.qty;
+  });
+  const f = dSearchClientes.toLowerCase();
+  const clients = Object.values(clientMap)
+    .filter(c=>!f||c.name.toLowerCase().includes(f))
+    .sort((a,b)=>b.visits.length-a.visits.length);
+
+  const rows = clients.map(c => {
+    const lastVisit = [...c.visits].sort((a,b)=>new Date(b.date)-new Date(a.date))[0];
+    const u = USERS.find(x=>x.id===lastVisit.userId)||{};
+    const d = new Date(lastVisit.date);
+    const ds = d.toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
+    const techs = [...new Set(c.visits.map(v=>{const u=USERS.find(x=>x.id===v.userId);return u?u.name:'?'}))];
+    return `<tr>
+      <td><strong>${c.name}</strong></td>
+      <td>${c.visits.length}</td>
+      <td>${c.recambios}</td>
+      <td>${techs.map(t=>`<span style="background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:2px 8px;font-size:11px;margin-right:4px;">${t}</span>`).join('')}</td>
+      <td style="color:var(--muted);">${ds}</td>
+      <td><button class="d-btn secondary" style="padding:4px 10px;font-size:12px;" onclick="exportClienteCSV('${c.name.replace(/'/g,"\'")}')">CSV</button></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('d-content').innerHTML = `
+    <div class="d-panel">
+      <div class="d-panel-header"><div class="d-panel-title">${clients.length} clientes</div></div>
+      <div class="d-panel-body no-pad">
+        <table class="d-table">
+          <thead><tr><th>Cliente</th><th>Visitas</th><th>Recambios</th><th>Tecnicos</th><th>Ultima visita</th><th></th></tr></thead>
+          <tbody>${rows||'<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;">Sin clientes registrados aun</td></tr>'}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+// Hook into Firebase listeners to refresh desktop
+const origAttach = attachListeners;
+window.attachListeners = function() {
+  origAttach();
+  // After each Firebase update, also refresh desktop
+  const origH = S.history;
+}
+
+// Patch: after each render call in listeners, also call dAutoRefresh
+// We do this by overriding the onValue callbacks indirectly
+// through a polling check on data changes
+setInterval(() => {
+  if(IS_DESKTOP() && CU) {
+    const badge = document.getElementById('d-badge-furgo');
+    if(badge) {
+      const allItems = Object.values(S.stocks).flat().filter(Boolean);
+      const lowFurgo = allItems.filter(i=>i.qty<=i.alert).length;
+      const lowTaller = S.taller.filter(i=>i.qty<=i.alert).length;
+      badge.textContent = lowFurgo;
+      badge.classList.toggle('show', lowFurgo > 0);
+      const bt = document.getElementById('d-badge-taller');
+      if(bt) { bt.textContent = lowTaller; bt.classList.toggle('show', lowTaller > 0); }
+    }
+  }
+}, 3000);
+
+// Expose desktop functions
+Object.assign(window, {
+  dShowPage, dLogout, dSaveTaller, dShowTallerModal, dEditTaller, dDelTaller,
+  dTallerAdj, dRenderPage, dAutoRefresh
+});
+
 
 // Expose to window (required with type="module")
 Object.assign(window,{
